@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ book.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">✏️ Edit Book</h2>
+
+  <form method="post" enctype="multipart/form-data" class="shadow p-4 rounded bg-white">
+    {% csrf_token %}
+
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="title" class="form-label fw-bold">Title</label>
+      <input type="text" name="title" id="title" class="form-control" 
+             value="{{ book.title }}" required>
+    </div>
+
+    <!-- Author -->
+    <div class="mb-3">
+      <label for="author" class="form-label fw-bold">Author</label>
+      <input type="text" name="author" id="author" class="form-control" 
+             value="{{ book.author }}" required>
+    </div>
+
+    <!-- About -->
+    <div class="mb-3">
+      <label for="about" class="form-label fw-bold">About</label>
+      <textarea name="about" id="about" rows="4" class="form-control">{{ book.about }}</textarea>
+    </div>
+
+    <!-- Current PDF -->
+    {% if book.file_url %}
+    <div class="mb-3">
+      <label class="form-label fw-bold">Current File:</label><br>
+      <a href="{{ book.file_url }}" target="_blank" class="text-decoration-none">📄 View PDF</a>
+    </div>
+    {% endif %}
+
+    <!-- Replace PDF -->
+    <div class="mb-3">
+      <label for="file" class="form-label fw-bold">Replace PDF</label>
+      <input type="file" name="file" id="file" class="form-control">
+      <small class="text-muted">Upload a new PDF to replace the existing one.</small>
+    </div>
+
+    <!-- Current Cover -->
+    {% if book.cover_url %}
+    <div class="mb-3">
+      <label class="form-label fw-bold">Current Cover:</label><br>
+      <img src="{{ book.cover_url }}" alt="{{ book.title }}" class="img-thumbnail" style="max-height:180px;">
+    </div>
+    {% endif %}
+
+    <!-- Replace Cover -->
+    <div class="mb-3">
+      <label for="cover_image" class="form-label fw-bold">Replace Cover</label>
+      <input type="file" name="cover_image" id="cover_image" class="form-control">
+      <small class="text-muted">Upload a new image to replace the existing cover.</small>
+    </div>
+
+    <!-- Actions -->
+    <div class="d-flex justify-content-between">
+      <a href="{% url 'book_list' %}" class="btn btn-secondary">⬅ Back</a>
+      <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+    </div>
+  </form>
+</div>
+{% endblock %}
