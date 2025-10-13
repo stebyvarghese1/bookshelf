@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ book.title }}</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- ✅ Turn.js -->
+  <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js/turn.min.js"></script>
+
+  <!-- ✅ Theme -->
+  <link rel="stylesheet" href="{% static 'css/theme.css' %}">
+  <script src="{% static 'js/theme-toggle.js' %}"></script>
+
+  <!-- ✅ PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+  <style>
+    body {
+      background: #ececec;
+    }
+
+    .reader-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 30px;
+      margin: 20px;
+    }
+
+    /* LEFT: Cover + Info */
+    .book-info {
+      width: 250px;
+      text-align: center;
+    }
+
+    .book-info img {
+      width: 50%;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+
+    .book-info h3 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .book-info .author {
+      font-size: 0.95rem;
+      color: #555;
+    }
+
+    /* CENTER: Flipbook */
+    .flipbook {
+      width: 650px;
+      height: 850px;
+      margin: auto;
+    }
+
+    .flipbook .page {
+      background: #fff;
+      padding: 10px;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* RIGHT: About */
+    .about-panel {
+      width: 300px;
+      padding: 12px;
+      border-radius: 6px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    .about-panel h6 {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .about-panel p {
+      font-size: 0.9rem;
+    }
+
+    
+
+    /* 📖 Edge Navigation Buttons */
+    .edge-btn {
+      position: fixed;
+      top: 70%;
+      width: 45px;
+      height: 45px;
+      border: none;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    .left-btn { left: 15px; }
+    .right-btn { right: 15px; }
+
+    /* 🔊 Read Aloud Controls */
+    .tts-controls {
+      margin-top: 15px;
+    }
+    .tts-controls button {
+      margin: 5px 3px;
+      padding: 6px 12px;
+      font-size: 0.9rem;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="reader-container">
+  <!-- Cover + Info -->
+  <div class="book-info">
+    {% if book.cover_url %}
+      <img src="{{ book.cover_url }}" alt="{{ book.title }} cover">
+    {% endif %}
+    <h3>{{ book.title }}</h3>
+    <p class="author">by {{ book.author }}</p>
+
+    <!-- 🔊 Read Aloud Controls -->
+    <div class="tts-controls">
+      <button id="readAloud" class="btn btn-primary btn-sm">🔊 Read Aloud</button>
+      <button id="pauseTTS" class="btn btn-warning btn-sm">⏸ Pause</button>
+      <button id="resumeTTS" class="btn btn-success btn-sm">▶ Resume</button>
+      <button id="stopTTS" class="btn btn-danger btn-sm">⏹ Stop</button>
+    </div>
+  </div>
+
+  <!-- Flipbook -->
+  <div class="flipbook"></div>
+
+  <!-- About -->
+  {% if book.about %}
+  <div class="about-panel">
+    <h6>About this book</h6>
+    <p>{{ book.about }}</p>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Edge Navigation Buttons -->
+<button id="prev" class="edge-btn left-btn">⟨</button>
+<button id="next" class="edge-btn right-btn">⟩</button>
+
+<script>
+  const pdfUrl = "{{ book.file_url|escapejs }}";
+
+  async function loadPDF() {
+    try {
+      const pdf = await pdfjsLib.getDocument(pdfUrl).promise;
+
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const viewport = page.getViewport({ scale: 1.5 });
+
+        const canvas = document.createElement("canvas");
+        canvas.width = viewport.width;
+        canvas.height = viewport.height;
+
+        const ctx = canvas.getContext("2d");
+        await page.render({ canvasContext: ctx, viewport }).promise;
+
+        const div = document.createElement("div");
+        div.className = "page";
+
+        // Extract text content for Read Aloud
+        const textContent = await page.getTextContent();
+        const textItems = textContent.items.map(item => item.str).join(" ");
+        const textDiv = document.createElement("div");
+        textDiv.className = "page-text";
+        textDiv.style.display = "none"; // hidden but available for TTS
+        textDiv.textContent = textItems;
+
+        div.appendChild(canvas);
+        div.appendChild(textDiv);
+
+        $(".flipbook").append(div);
+      }
+
+      $(".flipbook").turn({
+        display: 'single',
+        width: Math.min(window.innerWidth * 0.9, 700),
+        height: window.innerHeight * 0.94,  // almost full height
+        autoCenter: true,
+        duration: 1000
+      });
+
+
+
+      $("#prev").click(() => $(".flipbook").turn("previous"));
+      $("#next").click(() => $(".flipbook").turn("next"));
+
+      enableSwipe();
+
+    } catch (err) {
+      console.error("PDF.js error:", err);
+      alert("⚠️ Failed to load PDF.");
+    }
+  }
+
+  function enableSwipe() {
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const flipbook = document.querySelector(".flipbook");
+
+    flipbook.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    flipbook.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const swipeDistance = touchEndX - touchStartX;
+      if (Math.abs(swipeDistance) > 50) {
+        if (swipeDistance < 0) $(".flipbook").turn("next");
+        else $(".flipbook").turn("previous");
+      }
+    });
+  }
+
+  // 🔊 Text-to-Speech (TTS) Controls
+  let utterance;
+  const synth = window.speechSynthesis;
+
+  function getCurrentPageText() {
+    const currentPage = $(".flipbook").turn("page");
+    const text = $(".flipbook .page").eq(currentPage - 1).find(".page-text").text();
+    return text || "No text available on this page.";
+  }
+
+  $("#readAloud").click(() => {
+    if (synth.speaking) synth.cancel();
+    utterance = new SpeechSynthesisUtterance(getCurrentPageText());
+    utterance.lang = "en-US";
+    synth.speak(utterance);
+  });
+
+  $("#pauseTTS").click(() => {
+    if (synth.speaking && !synth.paused) synth.pause();
+  });
+
+  $("#resumeTTS").click(() => {
+    if (synth.paused) synth.resume();
+  });
+
+  $("#stopTTS").click(() => {
+    synth.cancel();
+  });
+
+  $(document).ready(loadPDF);
+</script>
+
+</body>
+</html>
