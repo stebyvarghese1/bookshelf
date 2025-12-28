@@ -24,7 +24,7 @@ Admins can upload, edit, and manage books easily through a simple, user-friendly
 ---
 ### 📖 Screenshorts
 ![Preview](https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true
-)
+)(https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true)
 
 
 ## ⚙️ Tech Stack
