@@ -25,10 +25,34 @@ Whether you are an administrator managing a vast collection or a reader looking 
 
 ## 📸 Preview
 
-<p align="center">
-  <img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true" width="45%" />
-  <img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true" width="45%" />
-</p>
+<div align="center">
+
+<table>
+<tr>
+<td align="center" width="50%">
+<img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true" width="100%" />
+<br/>
+<b>📚 Home Dashboard</b>
+</td>
+
+<td align="center" width="50%">
+<img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true" width="100%" />
+<br/>
+<b>🔍 Book view</b>
+</td>
+</tr>
+
+<tr>
+<td align="center" width="50%">
+<img src="https://github.com/user-attachments/assets/3aa2812b-579b-4a30-aa3a-01b4de7d0f80?raw=true" width="100%" />
+<br/>
+<b>📖 Admin Book Details</b>
+</td>
+
+</tr>
+</table>
+
+</div>
 
 ---
 
