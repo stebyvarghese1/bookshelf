@@ -1,74 +1,101 @@
-# 🪶 OpenSource Bookshelf
+# <p align="center">🪶 OpenSource Bookshelf</p>
 
-A modern, responsive, and open-source digital bookshelf built using **Django** and **PostgreSQL**, where users can browse, search, and read books online using an integrated **flipbook reader**.  
-Admins can upload, edit, and manage books easily through a simple, user-friendly admin interface.
+<p align="center">
+  <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=django&logoColor=white" alt="Django" />
+  <img src="https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
+  <img src="https://img.shields.io/badge/Bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" />
+  <img src="https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+</p>
 
----
-
-## 📚 Features
-
-### 🧑‍💻 For Admin
-- Upload new books with cover, author, and description.  
-- Edit or delete existing books.  
-- Update admin credentials.  
-- Manage data securely in PostgreSQL.  
-- Access responsive dashboard with navigation and live preview.
-
-### 📖 For Users
-- Browse all books with cover and title.  
-- Read books online using **Flipbook Reader** (Turn.js + PDF.js).  
-- Search books by title or author.  
-- Light/Dark theme support.  
-- Fully responsive for mobile and desktop.
-
----
-### 📖 Screenshorts
-![Preview](https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true
-)
-![](https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true)
-
-
-## ⚙️ Tech Stack
-
-| Layer | Technology Used |
-|-------|------------------|
-| **Frontend** | HTML5, CSS3, Bootstrap 5, JavaScript (jQuery), Turn.js, PDF.js |
-| **Backend** | Django (Python) |
-| **Database** | PostgreSQL |
-| **Cloud Storage** | Supabase |
-| **Version Control** | Git & GitHub |
+<p align="center">
+  <strong>A modern, high-performance digital bookshelf and flipbook reader.</strong><br>
+  Experience the charm of physical reading in a digital world.
+</p>
 
 ---
 
-## 🚀 Installation & Setup
+## 🌟 Introduction
 
-### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/<your-username>/opensource-bookshelf.git
-cd opensource-bookshelf
+**OpenSource Bookshelf** is a sophisticated digital library platform designed for seamless book management and an immersive reading experience. Built with **Django** for a robust backend and **Turn.js** for a realistic page-turning interface, it bridges the gap between traditional books and digital accessibility.
+
+Whether you are an administrator managing a vast collection or a reader looking for your next favorite book, Bookshelf provides an intuitive and responsive environment.
+
+---
+
+## 📸 Preview
+
+<p align="center">
+  <img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true" width="45%" />
+  <img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true" width="45%" />
+</p>
+
+---
+
+## 🚀 Key Features
+
+### 🛡️ Administrative Power
+- **Intuitive Dashboard**: Manage your entire library through a clean, responsive admin interface.
+- **Full CRUD Support**: Seamlessly upload, edit, and curate book Metadata.
+- **Secure Authentication**: Robust admin credentials management and PostgreSQL data security.
+- **Live Previews**: Instantly verify book covers and content before publishing.
+
+### 📖 Reader Experience
+- **Interactive Flipbook**: Realistic 3D page-turning effects powered by Turn.js.
+- **Global Search**: Effortlessly find books by title, author, or description.
+- **Theme Versatility**: Switch between **Light** and **Dark** modes for comfortable reading.
+- **Universal Access**: Fully optimized for mobile, tablet, and desktop viewports.
+
+---
+
+## 🛠️ Technical Architecture
+
+```text
+[ Client Browser ] <---- HTTP/JSON ----> [ Django Server ]
+      ^                                       |
+      |                                       |
+[ PDF.js / Turn.js ] <--- Media Stream --- [ Supabase Storage ]
+                                              |
+                                       [ PostgreSQL DB ]
 ```
 
-### 2️⃣ Create a Virtual Environment
+| Layer | Technologies |
+| :--- | :--- |
+| **Frontend** | HTML5, CSS3, Bootstrap 5, jQuery, Turn.js, PDF.js |
+| **Backend** | Django 4.2+, Python |
+| **Database** | PostgreSQL |
+| **Storage** | Supabase (S3 Compliant) |
+| **Auth** | Django Rest Framework (JWT Ready) |
+
+---
+
+## ⚡ Installation & Setup
+
+### 1. Clone & Navigate
+```bash
+git clone https://github.com/stebyvarghese1/bookshelf.git
+cd bookshelf
+```
+
+### 2. Environment Setup
 ```bash
 python -m venv venv
-venv\Scripts\activate   # On Windows
-# or
-source venv/bin/activate   # On macOS/Linux
-```
+# Windows
+venv\Scripts\activate
+# Linux/macOS
+source venv/bin/activate
 
-### 3️⃣ Install Dependencies
-```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Configure Database
-In `settings.py`:
+### 3. Database Configuration
+Configure your PostgreSQL credentials in `config/settings.py` or `.env`:
 ```python
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'bookshelf_db',
-        'USER': 'postgres',
+        'USER': 'your_user',
         'PASSWORD': 'your_password',
         'HOST': 'localhost',
         'PORT': '5432',
@@ -76,86 +103,43 @@ DATABASES = {
 }
 ```
 
-### 5️⃣ Apply Migrations
+### 4. Initialize & Launch
 ```bash
 python manage.py makemigrations
 python manage.py migrate
-```
 
-### 6️⃣ Create Admin User
-```bash
+# Create Admin User
 python manage.py shell
-```
-Then run:
-```python
-from books.models import AdminUser
-admin = AdminUser(username="admin")
-admin.set_password("admin123")
-admin.save()
-exit()
-```
+# >>> from books.models import AdminUser
+# >>> admin = AdminUser(username="admin")
+# >>> admin.set_password("admin123")
+# >>> admin.save()
 
-### 7️⃣ Run the Server
-```bash
 python manage.py runserver
 ```
-Access it at **http://127.0.0.1:8000/**
 
 ---
 
-## 🌗 Theme & UI
+## 🗺️ Roadmap & Future Enhancements
 
-- Light/Dark mode toggle.  
-- Adaptive responsive design.  
-- Smooth Flipbook display.  
-- “Read Aloud” feature (TTS planned).
+- [ ] **AI-Powered Read Aloud**: Integration of TTS for accessibility.
+- [ ] **Advanced Organization**: Categories, tags, and custom collections.
+- [ ] **Reader Profiles**: Personalized bookmarks and reading progress.
+- [ ] **Offline Support**: PWA capabilities for reading without internet.
+---
+
+## 📜 License
+
+Distributed under the **MIT License**. See `LICENSE` for more information.
 
 ---
 
-## 🧠 Modules
+## 👤 Author
 
-1. **Admin Module** – Manage books and credentials.  
-2. **User Module** – Browse, search, and read books.  
-3. **Flipbook Reader Module** – Interactive page-turner.  
-4. **Theme Module** – Switch light/dark mode.  
-5. **Search Module** – Real-time book filtering.
+**Steby Varghese (King’sGuard)**  
 
----
-
-## 🗄️ Database Design
-
-| Table | Fields |
-|--------|--------|
-| **Book** | id, title, author, about, cover_url, file_url, uploaded_at |
-| **AdminUser** | id, username, password |
-
----
-
-## 🧩 Future Enhancements
-- Add **Read Aloud** (Text-to-Speech).  
-- Add **Book Categories** & **Favorites**.  
-- User accounts & authentication.  
-- Reading progress analytics.
-
----
-
-## 🧑‍🤝‍🧑 Contributing
-
-1. Fork the repo.  
-2. Create a new branch (`feature/your-feature`).  
-3. Commit & push your changes.  
-4. Open a Pull Request.
-
----
-
-## 🧾 License
-
-Licensed under the **MIT License**.
-
----
-
-## 💬 Credits
-
-Developed by **King’sGuard**  
-🎓 Ethical Hacking & MCA Student  
-Open-Source Contributor | Passionate about clean web apps  
+<p align="left">
+  <a href="https://github.com/stebyvarghese1">
+    <img src="https://img.shields.io/badge/GitHub-stebyvarghese1-black?style=for-the-badge&logo=github" alt="GitHub" />
+  </a>
+</p>
