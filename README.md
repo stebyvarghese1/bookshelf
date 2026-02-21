@@ -30,13 +30,13 @@ Whether you are an administrator managing a vast collection or a reader looking 
 <table>
 <tr>
 <td align="center" width="50%">
-<img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144023.png?raw=true" width="100%" />
+<img src="https://github.com/user-attachments/assets/d3cf9a39-8534-4e01-9195-b9a3ca4fcbb7?raw=true" width="100%" />
 <br/>
 <b>📚 Home Dashboard</b>
 </td>
 
 <td align="center" width="50%">
-<img src="https://github.com/stebyvarghese1/bookshelf/blob/main/Screenshot%202025-12-14%20144351.png?raw=true" width="100%" />
+<img src="https://github.com/user-attachments/assets/a945274e-509e-4cba-aad1-0e85fcd06727?raw=true" width="100%" />
 <br/>
 <b>🔍 Book view</b>
 </td>
