@@ -8,9 +8,7 @@
 
 <div align="center">
 
-```
    Django  ·  PostgreSQL  ·  Supabase  ·  Turn.js  ·  PDF.js
-```
 
 </div>
 
