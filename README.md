@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=1,4,19&height=240&section=header&text=penSource%20Bookshelf&fontSize=62&fontColor=ffffff&fontAlignY=42&desc=A%20modern%20digital%20library%20with%20an%20immersive%20flipbook%20reader.&descAlignY=63&descSize=16&descColor=94a3b8&animation=fadeIn" width="100%"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&customColorList=1,4,19&height=240&section=header&text=OpenSource%20Bookshelf&fontSize=62&fontColor=ffffff&fontAlignY=42&desc=A%20modern%20digital%20library%20with%20an%20immersive%20flipbook%20reader.&descAlignY=63&descSize=16&descColor=94a3b8&animation=fadeIn" width="100%"/>
 
 </div>
 
